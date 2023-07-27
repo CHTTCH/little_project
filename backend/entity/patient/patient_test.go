@@ -5,7 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreatePatient(t *testing.T) {
+func TestPatientStruct(t *testing.T) {
 	id := "1"
 	name := "小明"
 	orderId := "1"
@@ -16,7 +16,7 @@ func TestCreatePatient(t *testing.T) {
 		OrderId: orderId,
 	}
 
-	assert.Equal(t, id, p.getId())
-	assert.Equal(t, name, p.getName())
-	assert.Equal(t, orderId, p.getOrderId())
+	assert.Equal(t, id, p.GetId())
+	assert.Equal(t, name, p.GetName())
+	assert.Equal(t, orderId, p.GetOrderId())
 }

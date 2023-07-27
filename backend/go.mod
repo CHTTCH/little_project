@@ -1,4 +1,4 @@
-module github.com/CHTTCH/little_project
+module github.com/CHTTCH/little_project/backend
 
 go 1.19
 

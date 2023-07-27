@@ -6,14 +6,14 @@ type Patient struct {
 	OrderId string
 }
 
-func (p Patient) getId() string {
+func (p Patient) GetId() string {
 	return p.Id
 }
 
-func (p Patient) getName() string {
+func (p Patient) GetName() string {
 	return p.Name
 }
 
-func (p Patient) getOrderId() string {
+func (p Patient) GetOrderId() string {
 	return p.OrderId
 }
