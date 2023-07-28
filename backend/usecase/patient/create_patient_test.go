@@ -1,25 +1,23 @@
 package patient
 
 import (
-	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
-	adapterPatient "github.com/CHTTCH/little_project/backend/adapter/patient"
-	"github.com/stretchr/testify/assert"
 	"testing"
+	mockPatientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
+	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestCreatePatient(t *testing.T) {
+func TestCreatePatientSucceed(t *testing.T) {
 	id := "1"
 	name := "小明"
-	orderId := "1"
 
-	repo := &adapterPatient.MockPatientRepository{PatientList: []entityPatient.Patient{}}
-	input := &CreatePatientInput{id: id, name: name, orderId: orderId}
-	output := &CreatePatientOutput{}
+	repo := &mockPatientRepo.MockPatientRepository{PatientList: []entityPatient.Patient{}}
+	input := &CreatePatientInput{id: id, name: name}
 
-	CreatePatient(repo, input, output)
+	output := CreatePatient(repo, input)
 
 	assert.Equal(t, id, repo.GetPatientList()[0].GetId())
 	assert.Equal(t, name, repo.GetPatientList()[0].GetName())
-	assert.Equal(t, orderId, repo.GetPatientList()[0].GetOrderId())
 	assert.Equal(t, id, output.GetId())
+	assert.Equal(t, true, output.GetResult())
 }

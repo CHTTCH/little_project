@@ -5,5 +5,5 @@ import(
 )
 
 type Repository[T patient.Patient] interface {
-	Save(patient.Patient)
+	Save(patient.Patient) error
 }

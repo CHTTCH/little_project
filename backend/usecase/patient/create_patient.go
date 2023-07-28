@@ -2,16 +2,20 @@ package patient
 
 import (
 	"github.com/CHTTCH/little_project/backend/entity/patient"
+	commandOutput "github.com/CHTTCH/little_project/backend/usecase/command_output"
 )
 
-func CreatePatient(repo Repository[patient.Patient], input *CreatePatientInput, output *CreatePatientOutput) {
+func CreatePatient(repo Repository[patient.Patient], input *CreatePatientInput) commandOutput.CommandOutput{
 	p := patient.Patient{
 		Id:      input.GetId(),
 		Name:    input.GetName(),
-		OrderId: input.GetOrderId(),
 	}
 
-	repo.Save(p)
+	err := repo.Save(p)
 
-	output.SetId(input.GetId())
+	if err != nil {
+		return 	commandOutput.CommandOutput{ Id: input.GetId(), Result: false, Message: "save failed" }
+	}
+	
+	return commandOutput.CommandOutput{ Id: input.GetId(), Result: true }
 }
