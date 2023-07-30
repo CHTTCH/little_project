@@ -1,8 +1,8 @@
 package command_output
 
 type CommandOutput struct {
-	Id string
-	Result bool
+	Id      string
+	Result  bool
 	Message string
 }
 

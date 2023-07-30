@@ -1,10 +1,10 @@
 package patient
 
 import (
-	"testing"
 	mockPatientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
 	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestFindAllPatientSucceed(t *testing.T) {
@@ -26,5 +26,4 @@ func TestFindAllPatientSucceed(t *testing.T) {
 	assert.Equal(t, name1, output.GetData()[0].GetName())
 	assert.Equal(t, id2, output.GetData()[1].GetId())
 	assert.Equal(t, name2, output.GetData()[1].GetName())
-
 }

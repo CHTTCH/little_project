@@ -5,23 +5,23 @@ import (
 	"gorm.io/gorm"
 )
 
-type Repository struct {
+type PatientRepository struct {
 	DB *gorm.DB
 }
 
-func (repo *Repository) Save(p patient.Patient) error {
-	if err:= repo.DB.AutoMigrate(new(patient.Patient)); err != nil {
-        return err
-    }
+func (repo *PatientRepository) Save(p *patient.Patient) error {
+	if err := repo.DB.AutoMigrate(new(patient.Patient)); err != nil {
+		return err
+	}
 
 	if err := repo.DB.Save(p).Error; err != nil {
-        return err
-    }
+		return err
+	}
 
 	return nil
 }
 
-func (repo *Repository) FindAll() ([]patient.Patient, error) {
+func (repo *PatientRepository) FindAll() ([]patient.Patient, error) {
 	patients := new([]patient.Patient)
 
 	if err := repo.DB.Find(patients).Error; err != nil {
@@ -29,4 +29,14 @@ func (repo *Repository) FindAll() ([]patient.Patient, error) {
 	}
 
 	return *patients, nil
+}
+
+func (repo *PatientRepository) FindById(id string) (*patient.Patient, error) {
+	patient := &patient.Patient{}
+
+	if err := repo.DB.First(patient, "id = ?", id).Error; err != nil {
+		return nil, err
+	}
+
+	return patient, nil
 }

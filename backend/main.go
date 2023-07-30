@@ -1,12 +1,14 @@
 package main
 
 import (
-	repo "github.com/CHTTCH/little_project/backend/adapter/patient/repository"
-	createPatientUseCase "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
+	createOrderController "github.com/CHTTCH/little_project/backend/adapter/order/controller"
+	orderRepo "github.com/CHTTCH/little_project/backend/adapter/order/repository"
+	createPatientController "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
+	patientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/repository"
 	"github.com/gin-gonic/gin"
-    "net/http"
-	"gorm.io/gorm"
 	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"net/http"
 )
 
 type IndexData struct {
@@ -14,7 +16,9 @@ type IndexData struct {
 	Content string
 }
 
-const( dsn = "host=localhost user=Zachary password=Zachary dbname=little_project port=5432 sslmode=disable")
+const (
+	dsn = "host=localhost user=Zachary password=Zachary dbname=little_project port=5432 sslmode=disable"
+)
 
 func homePage(c *gin.Context) {
 	data := new(IndexData)
@@ -26,16 +30,18 @@ func homePage(c *gin.Context) {
 func main() {
 	postgres, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-	repo := &repo.Repository{ DB: postgres }
+	patientRepo := &patientRepo.PatientRepository{DB: postgres}
+	orderRepo := &orderRepo.OrderRepository{DB: postgres}
 
 	if err != nil {
 		panic("failed to connect database: " + err.Error())
 	}
-	
+
 	server := gin.Default()
 	server.LoadHTMLGlob("../frontend/*")
 	server.GET("/", homePage)
-	server.GET("/patients", createPatientUseCase.FindAllPatientController(repo))
-	server.POST("/patients/create", createPatientUseCase.CreatePatientController(repo))
+	server.GET("/patients", createPatientController.FindAllPatientsController(patientRepo))
+	server.POST("/patients/create", createPatientController.CreatePatientController(patientRepo))
+	server.POST("/orders/create", createOrderController.CreateOrderController(patientRepo, orderRepo))
 	server.Run(":8888")
 }

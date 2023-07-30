@@ -1,18 +1,18 @@
 package patient
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestPatientStruct(t *testing.T) {
 	id := "1"
 	name := "小明"
-	orderId := "1"
+	orderId := 1
 
 	p := Patient{
-		Id: id,
-		Name: name,
+		Id:      id,
+		Name:    name,
 		OrderId: orderId,
 	}
 

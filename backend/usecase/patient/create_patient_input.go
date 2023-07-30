@@ -1,8 +1,12 @@
 package patient
 
 type CreatePatientInput struct {
-	id      string
-	name    string
+	id   string
+	name string
+}
+
+func NewPatientInput(id, name string) CreatePatientInput {
+	return CreatePatientInput{id: id, name: name}
 }
 
 func (i *CreatePatientInput) SetId(id string) {
