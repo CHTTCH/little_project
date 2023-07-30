@@ -4,8 +4,6 @@ import (
 	"github.com/CHTTCH/little_project/backend/entity/patient"
 )
 
-
-
 type MockPatientRepository struct {
 	PatientList []patient.Patient
 }
@@ -15,6 +13,6 @@ func (r *MockPatientRepository) Save(p patient.Patient) error{
 	return nil
 }
 
-func (r *MockPatientRepository) GetPatientList() []patient.Patient {
-	return r.PatientList
+func (r *MockPatientRepository) FindAll() ([]patient.Patient, error) {
+	return r.PatientList, nil
 }

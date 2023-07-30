@@ -1,9 +1,10 @@
-package patient
+package repository
 
 import(
 	"github.com/CHTTCH/little_project/backend/entity/patient"
 )
 
 type Repository[T patient.Patient] interface {
-	Save(patient.Patient) error
+	Save(T) error
+	FindAll() ([]T, error)
 }

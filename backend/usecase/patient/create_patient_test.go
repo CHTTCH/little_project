@@ -12,12 +12,14 @@ func TestCreatePatientSucceed(t *testing.T) {
 	name := "小明"
 
 	repo := &mockPatientRepo.MockPatientRepository{PatientList: []entityPatient.Patient{}}
-	input := &CreatePatientInput{id: id, name: name}
+	input := CreatePatientInput{id: id, name: name}
 
 	output := CreatePatient(repo, input)
 
-	assert.Equal(t, id, repo.GetPatientList()[0].GetId())
-	assert.Equal(t, name, repo.GetPatientList()[0].GetName())
+	patients, _ := repo.FindAll()
+
+	assert.Equal(t, id, patients[0].GetId())
+	assert.Equal(t, name, patients[0].GetName())
 	assert.Equal(t, id, output.GetId())
 	assert.Equal(t, true, output.GetResult())
 }
