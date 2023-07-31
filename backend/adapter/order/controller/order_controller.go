@@ -81,7 +81,9 @@ func FindAllOrdersController(repo repository.Repository[entityOrder.Order, int])
 
 		if output.GetResult() {
 			c.JSON(http.StatusOK, output.GetData())
-		} else {
+		} else if output.Message == "no orders" {
+			c.JSON(http.StatusOK, []any{})
+		}else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": errors.New("find all orders failed").Error()})
 		}
 	}
