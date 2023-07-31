@@ -35,13 +35,12 @@ func (repo *OrderRepository) FindAll() ([]order.Order, error) {
 	return *orders, nil
 }
 
-// TODO not done
 func (repo *OrderRepository) FindById(id int) (*order.Order, error) {
-	patients := new([]order.Order)
+	order := new(order.Order)
 
-	if err := repo.dB.Find(patients).Error; err != nil {
+	if err := repo.dB.First(order, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
 
-	return new(order.Order), nil
+	return order, nil
 }

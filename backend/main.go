@@ -1,9 +1,9 @@
 package main
 
 import (
-	createOrderController "github.com/CHTTCH/little_project/backend/adapter/order/controller"
+	orderController "github.com/CHTTCH/little_project/backend/adapter/order/controller"
 	orderRepo "github.com/CHTTCH/little_project/backend/adapter/order/repository"
-	createPatientController "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
+	patientController "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
 	patientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/repository"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
@@ -40,8 +40,9 @@ func main() {
 	server := gin.Default()
 	server.LoadHTMLGlob("../frontend/*")
 	server.GET("/", homePage)
-	server.GET("/patients", createPatientController.FindAllPatientsController(patientRepo))
-	server.POST("/patients/create", createPatientController.CreatePatientController(patientRepo))
-	server.POST("/orders/create", createOrderController.CreateOrderController(patientRepo, orderRepo))
+	server.GET("/patients", patientController.FindAllPatientsController(patientRepo))
+	server.POST("/patients/create", patientController.CreatePatientController(patientRepo))
+	server.POST("/orders/create", orderController.CreateOrderController(patientRepo, orderRepo))
+	server.PUT("/orders/edit", orderController.EditOrderController(orderRepo))
 	server.Run(":8888")
 }

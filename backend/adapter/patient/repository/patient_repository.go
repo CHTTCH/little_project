@@ -36,7 +36,7 @@ func (repo *PatientRepository) FindAll() ([]patient.Patient, error) {
 }
 
 func (repo *PatientRepository) FindById(id string) (*patient.Patient, error) {
-	patient := &patient.Patient{}
+	patient := new(patient.Patient)
 
 	if err := repo.dB.First(patient, "id = ?", id).Error; err != nil {
 		return nil, err

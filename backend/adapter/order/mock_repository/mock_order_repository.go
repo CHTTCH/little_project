@@ -14,8 +14,17 @@ func NewMockOrderRepository() *MockOrderRepository {
 }
 
 func (r *MockOrderRepository) Save(o *order.Order) error {
-	o.SetId(1)
-	r.orderList = append(r.orderList, *o)
+	if len(r.orderList) == 0 {
+		o.SetId(1)
+		r.orderList = append(r.orderList, *o)
+	} else {
+		for index, order := range r.orderList {
+			if order.GetId() == o.GetId() {
+				r.orderList[index] = *o
+				return nil
+			}
+		}
+	}
 	return nil
 }
 
