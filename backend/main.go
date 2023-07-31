@@ -30,8 +30,8 @@ func homePage(c *gin.Context) {
 func main() {
 	postgres, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-	patientRepo := &patientRepo.PatientRepository{DB: postgres}
-	orderRepo := &orderRepo.OrderRepository{DB: postgres}
+	patientRepo := patientRepo.NewPatientRepository(postgres)
+	orderRepo := orderRepo.NewOrderRepository(postgres)
 
 	if err != nil {
 		panic("failed to connect database: " + err.Error())

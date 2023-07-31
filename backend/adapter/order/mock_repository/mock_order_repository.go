@@ -6,21 +6,25 @@ import (
 )
 
 type MockOrderRepository struct {
-	OrderList []order.Order
+	orderList []order.Order
+}
+
+func NewMockOrderRepository() *MockOrderRepository {
+	return &MockOrderRepository{orderList: []order.Order{}}
 }
 
 func (r *MockOrderRepository) Save(o *order.Order) error {
 	o.SetId(1)
-	r.OrderList = append(r.OrderList, *o)
+	r.orderList = append(r.orderList, *o)
 	return nil
 }
 
 func (r *MockOrderRepository) FindAll() ([]order.Order, error) {
-	return r.OrderList, nil
+	return r.orderList, nil
 }
 
 func (r *MockOrderRepository) FindById(id int) (*order.Order, error) {
-	for _, order := range r.OrderList {
+	for _, order := range r.orderList {
 		if order.GetId() == id {
 			return &order, nil
 		}

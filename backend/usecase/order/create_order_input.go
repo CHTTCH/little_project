@@ -5,8 +5,8 @@ type CreateOrderInput struct {
 	message   string
 }
 
-func NewCreateOrderInput(patientId, message string) CreateOrderInput {
-	return CreateOrderInput{patientId: patientId, message: message}
+func NewCreateOrderInput(patientId, message string) *CreateOrderInput {
+	return &CreateOrderInput{patientId: patientId, message: message}
 }
 
 func (i *CreateOrderInput) SetPatientId(patientId string) {

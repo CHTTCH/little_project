@@ -8,7 +8,7 @@ import (
 	"github.com/CHTTCH/little_project/backend/usecase/repository"
 )
 
-func CreateOrder(patientRepo repository.Repository[patient.Patient, string], orderRepo repository.Repository[order.Order, int], input CreateOrderInput) commandOutput.CommandOutput {
+func CreateOrder(patientRepo repository.Repository[patient.Patient, string], orderRepo repository.Repository[order.Order, int], input *CreateOrderInput) commandOutput.CommandOutput {
 
 	patient, err := patientRepo.FindById(input.GetPatientId())
 	if err != nil {
@@ -17,7 +17,7 @@ func CreateOrder(patientRepo repository.Repository[patient.Patient, string], ord
 		return commandOutput.CommandOutput{Result: false, Message: "patient already has order"}
 	}
 
-	o := &order.Order{Message: input.GetMessage()}
+	o := order.NewOrder(input.GetMessage())
 
 	if err := orderRepo.Save(o); err != nil {
 		return commandOutput.CommandOutput{Result: false, Message: err.Error()}

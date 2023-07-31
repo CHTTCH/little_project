@@ -6,11 +6,15 @@ type Patient struct {
 	OrderId int
 }
 
+func NewPatient(id, name string) *Patient {
+	return &Patient{Id: id, Name: name}
+}
+
 func (p *Patient) SetId(id string) {
 	p.Id = id
 }
 
-func (p Patient) GetId() string {
+func (p *Patient) GetId() string {
 	return p.Id
 }
 
@@ -18,7 +22,7 @@ func (p *Patient) SetName(name string) {
 	p.Name = name
 }
 
-func (p Patient) GetName() string {
+func (p *Patient) GetName() string {
 	return p.Name
 }
 
@@ -26,6 +30,6 @@ func (p *Patient) SetOrderId(orderId int) {
 	p.OrderId = orderId
 }
 
-func (p Patient) GetOrderId() int {
+func (p *Patient) GetOrderId() int {
 	return p.OrderId
 }

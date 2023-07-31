@@ -11,7 +11,7 @@ import (
 
 func CreatePatientController(repo repository.Repository[entityPatient.Patient, string]) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		input := usecasePatient.CreatePatientInput{}
+		input := new(usecasePatient.CreatePatientInput)
 
 		if id, isExist := c.GetPostForm("Id"); isExist && id != "" {
 			input.SetId(id)

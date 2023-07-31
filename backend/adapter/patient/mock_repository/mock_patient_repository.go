@@ -6,30 +6,34 @@ import (
 )
 
 type MockPatientRepository struct {
-	PatientList []patient.Patient
+	patientList []patient.Patient
+}
+
+func NewMockPatientRepository() *MockPatientRepository {
+	return &MockPatientRepository{patientList: []patient.Patient{}}
 }
 
 func (r *MockPatientRepository) Save(p *patient.Patient) error {
-	if p.OrderId != 0 {
-		for index, patient := range r.PatientList {
+	if p.GetOrderId() != 0 {
+		for index, patient := range r.patientList {
 			if patient.GetId() == p.GetId() {
-				r.PatientList[index] = *p
+				r.patientList[index] = *p
 				return nil
 			}
 		}
 	} else {
-		r.PatientList = append(r.PatientList, *p)
+		r.patientList = append(r.patientList, *p)
 	}
 
 	return nil
 }
 
 func (r *MockPatientRepository) FindAll() ([]patient.Patient, error) {
-	return r.PatientList, nil
+	return r.patientList, nil
 }
 
 func (r *MockPatientRepository) FindById(id string) (*patient.Patient, error) {
-	for _, patient := range r.PatientList {
+	for _, patient := range r.patientList {
 		if patient.GetId() == id {
 			return &patient, nil
 		}

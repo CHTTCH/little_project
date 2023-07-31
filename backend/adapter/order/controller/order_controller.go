@@ -13,7 +13,7 @@ import (
 
 func CreateOrderController(patientRepo repository.Repository[entityPatient.Patient, string], orderRepo repository.Repository[entityOrder.Order, int]) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		input := usecaseOrder.CreateOrderInput{}
+		input := new(usecaseOrder.CreateOrderInput)
 
 		if patientId, isExist := c.GetPostForm("PatientId"); isExist && patientId != "" {
 			input.SetPatientId(patientId)

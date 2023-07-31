@@ -2,7 +2,6 @@ package patient
 
 import (
 	mockRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
-	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -11,9 +10,9 @@ func TestCreatePatientSucceed(t *testing.T) {
 	id := "1"
 	name := "小明"
 
-	repo := &mockRepo.MockPatientRepository{PatientList: []entityPatient.Patient{}}
+	repo := mockRepo.NewMockPatientRepository()
 	input := NewCreatePatientInput(id, name)
-	
+
 	output := CreatePatient(repo, input)
 
 	patients, _ := repo.FindAll()

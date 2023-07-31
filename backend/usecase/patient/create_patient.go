@@ -6,8 +6,8 @@ import (
 	"github.com/CHTTCH/little_project/backend/usecase/repository"
 )
 
-func CreatePatient(repo repository.Repository[patient.Patient, string], input CreatePatientInput) commandOutput.CommandOutput {
-	p := &patient.Patient{Id: input.GetId(), Name: input.GetName()}
+func CreatePatient(repo repository.Repository[patient.Patient, string], input *CreatePatientInput) commandOutput.CommandOutput {
+	p := patient.NewPatient(input.GetId(), input.GetName())
 
 	err := repo.Save(p)
 

@@ -6,15 +6,19 @@ import (
 )
 
 type OrderRepository struct {
-	DB *gorm.DB
+	dB *gorm.DB
+}
+
+func NewOrderRepository(db *gorm.DB) *OrderRepository {
+	return &OrderRepository{dB: db}
 }
 
 func (repo *OrderRepository) Save(o *order.Order) error {
-	if err := repo.DB.AutoMigrate(new(order.Order)); err != nil {
+	if err := repo.dB.AutoMigrate(new(order.Order)); err != nil {
 		return err
 	}
 
-	if err := repo.DB.Save(o).Error; err != nil {
+	if err := repo.dB.Save(o).Error; err != nil {
 		return err
 	}
 
@@ -24,7 +28,7 @@ func (repo *OrderRepository) Save(o *order.Order) error {
 func (repo *OrderRepository) FindAll() ([]order.Order, error) {
 	orders := new([]order.Order)
 
-	if err := repo.DB.Find(orders).Error; err != nil {
+	if err := repo.dB.Find(orders).Error; err != nil {
 		return nil, err
 	}
 
@@ -35,7 +39,7 @@ func (repo *OrderRepository) FindAll() ([]order.Order, error) {
 func (repo *OrderRepository) FindById(id int) (*order.Order, error) {
 	patients := new([]order.Order)
 
-	if err := repo.DB.Find(patients).Error; err != nil {
+	if err := repo.dB.Find(patients).Error; err != nil {
 		return nil, err
 	}
 

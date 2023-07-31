@@ -13,13 +13,13 @@ import (
 func TestCreateOrder(t *testing.T) {
 	patientId := "1"
 	patientName := "小明"
-	patientRepo := new(mockPatientRepo.MockPatientRepository)
+	patientRepo := mockPatientRepo.NewMockPatientRepository()
 	patientInput := usecasePatient.NewCreatePatientInput(patientId, patientName)
 	_ = usecasePatient.CreatePatient(patientRepo, patientInput)
 
 	orderId := 1
 	message := "超過120請施打8u"
-	orderRepo := new(mockOrderRepo.MockOrderRepository)
+	orderRepo := mockOrderRepo.NewMockOrderRepository()
 	orderInput := NewCreateOrderInput(patientId, message)
 
 	createOrderOutput := CreateOrder(patientRepo, orderRepo, orderInput)

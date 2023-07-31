@@ -9,7 +9,7 @@ func NewOrder(message string) *Order {
 	return &Order{Message: message}
 }
 
-func (o Order) GetId() int {
+func (o *Order) GetId() int {
 	return o.Id
 }
 
@@ -17,6 +17,10 @@ func (o *Order) SetId(id int) {
 	o.Id = id
 }
 
-func (o Order) GetMessage() string {
+func (o *Order) GetMessage() string {
 	return o.Message
+}
+
+func (o *Order) SetMessage(message string) {
+	o.Message = message
 }

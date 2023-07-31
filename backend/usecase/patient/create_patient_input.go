@@ -5,8 +5,8 @@ type CreatePatientInput struct {
 	name string
 }
 
-func NewCreatePatientInput(id, name string) CreatePatientInput {
-	return CreatePatientInput{id: id, name: name}
+func NewCreatePatientInput(id, name string) *CreatePatientInput {
+	return &CreatePatientInput{id: id, name: name}
 }
 
 func (i *CreatePatientInput) SetId(id string) {
