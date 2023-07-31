@@ -28,7 +28,7 @@ func (repo *PatientRepository) Save(p *patient.Patient) error {
 func (repo *PatientRepository) FindAll() ([]patient.Patient, error) {
 	patients := new([]patient.Patient)
 
-	if err := repo.dB.Find(patients).Error; err != nil {
+	if err := repo.dB.Order("id asc").Find(patients).Error; err != nil {
 		return nil, err
 	}
 

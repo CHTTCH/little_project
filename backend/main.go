@@ -28,7 +28,7 @@ func main() {
 	server := gin.Default()
 
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000"} // 改為你的前端應用程式的地址
+	config.AllowOrigins = []string{"http://localhost:3000"}
 	server.Use(cors.New(config))
 
 	server.GET("/patients", patientController.FindAllPatientsController(patientRepo))

@@ -18,7 +18,7 @@ func (repo *OrderRepository) Save(o *order.Order) error {
 		return err
 	}
 
-	if err := repo.dB.Save(o).Error; err != nil {
+	if err := repo.dB.Order("id asc").Save(o).Error; err != nil {
 		return err
 	}
 
