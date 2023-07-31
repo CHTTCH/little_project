@@ -5,7 +5,7 @@ type CreateOrderInput struct {
 	message   string
 }
 
-func NewOrderInput(patientId, message string) CreateOrderInput {
+func NewCreateOrderInput(patientId, message string) CreateOrderInput {
 	return CreateOrderInput{patientId: patientId, message: message}
 }
 

@@ -12,8 +12,8 @@ func TestCreatePatientSucceed(t *testing.T) {
 	name := "小明"
 
 	repo := &mockRepo.MockPatientRepository{PatientList: []entityPatient.Patient{}}
-	input := NewPatientInput(id, name)
-
+	input := NewCreatePatientInput(id, name)
+	
 	output := CreatePatient(repo, input)
 
 	patients, _ := repo.FindAll()

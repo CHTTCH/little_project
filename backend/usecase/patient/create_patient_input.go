@@ -5,7 +5,7 @@ type CreatePatientInput struct {
 	name string
 }
 
-func NewPatientInput(id, name string) CreatePatientInput {
+func NewCreatePatientInput(id, name string) CreatePatientInput {
 	return CreatePatientInput{id: id, name: name}
 }
 
