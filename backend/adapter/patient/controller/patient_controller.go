@@ -2,11 +2,12 @@ package controller
 
 import (
 	"errors"
+	"net/http"
+
 	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
 	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
 	"github.com/CHTTCH/little_project/backend/usecase/repository"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func CreatePatientController(repo repository.Repository[entityPatient.Patient, string]) gin.HandlerFunc {
@@ -39,7 +40,7 @@ func CreatePatientController(repo repository.Repository[entityPatient.Patient, s
 
 func FindAllPatientsController(repo repository.Repository[entityPatient.Patient, string]) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		output := usecasePatient.FindAllPatient(repo)
+		output := usecasePatient.FindAllPatients(repo)
 
 		if output.GetResult() {
 			c.JSON(http.StatusOK, output.GetData())

@@ -6,7 +6,7 @@ import (
 	"github.com/CHTTCH/little_project/backend/usecase/repository"
 )
 
-func FindAllPatient(repo repository.Repository[patient.Patient, string]) queryOutput.QueryOutput[patient.Patient] {
+func FindAllPatients(repo repository.Repository[patient.Patient, string]) queryOutput.QueryOutput[patient.Patient] {
 	data, err := repo.FindAll()
 
 	if err != nil {

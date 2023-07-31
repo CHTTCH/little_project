@@ -74,3 +74,15 @@ func EditOrderController(orderRepo repository.Repository[entityOrder.Order, int]
 		}
 	}
 }
+
+func FindAllOrdersController(repo repository.Repository[entityOrder.Order, int]) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		output := usecaseOrder.FindAllOrders(repo)
+
+		if output.GetResult() {
+			c.JSON(http.StatusOK, output.GetData())
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": errors.New("find all orders failed").Error()})
+		}
+	}
+}

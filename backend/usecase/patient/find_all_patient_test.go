@@ -1,9 +1,10 @@
 package patient
 
 import (
+	"testing"
+
 	mockPatientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestFindAllPatientSucceed(t *testing.T) {
@@ -20,7 +21,7 @@ func TestFindAllPatientSucceed(t *testing.T) {
 	input2 := NewCreatePatientInput(id2, name2)
 	_ = CreatePatient(repo, input2)
 
-	output := FindAllPatient(repo)
+	output := FindAllPatients(repo)
 
 	assert.Equal(t, id1, output.GetData()[0].GetId())
 	assert.Equal(t, name1, output.GetData()[0].GetName())

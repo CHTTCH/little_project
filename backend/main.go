@@ -6,26 +6,14 @@ import (
 	patientController "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
 	patientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/repository"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"net/http"
 )
-
-type IndexData struct {
-	Title   string
-	Content string
-}
 
 const (
 	dsn = "host=localhost user=Zachary password=Zachary dbname=little_project port=5432 sslmode=disable"
 )
-
-func homePage(c *gin.Context) {
-	data := new(IndexData)
-	data.Title = "首頁"
-	data.Content = "我的第一個首頁"
-	c.HTML(http.StatusOK, "index.html", data)
-}
 
 func main() {
 	postgres, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -38,10 +26,14 @@ func main() {
 	}
 
 	server := gin.Default()
-	server.LoadHTMLGlob("../frontend/*")
-	server.GET("/", homePage)
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"} // 改為你的前端應用程式的地址
+	server.Use(cors.New(config))
+
 	server.GET("/patients", patientController.FindAllPatientsController(patientRepo))
 	server.POST("/patients/create", patientController.CreatePatientController(patientRepo))
+	server.GET("/orders", orderController.FindAllOrdersController(orderRepo))
 	server.POST("/orders/create", orderController.CreateOrderController(patientRepo, orderRepo))
 	server.PUT("/orders/edit", orderController.EditOrderController(orderRepo))
 	server.Run(":8888")
