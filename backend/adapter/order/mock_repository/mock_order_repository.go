@@ -39,5 +39,5 @@ func (r *MockOrderRepository) FindById(id int) (*order.Order, error) {
 		}
 	}
 
-	return nil, &customizeError.CustoMizeError{Message: "patient not found"}
+	return nil, &customizeError.CustomizeError{Message: "patient not found"}
 }

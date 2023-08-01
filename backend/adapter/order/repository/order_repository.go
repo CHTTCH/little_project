@@ -1,6 +1,7 @@
 package repository
 
 import (
+	customizedError "github.com/CHTTCH/little_project/backend/adapter/error"
 	"github.com/CHTTCH/little_project/backend/entity/order"
 	"gorm.io/gorm"
 )
@@ -28,7 +29,9 @@ func (repo *OrderRepository) Save(o *order.Order) error {
 func (repo *OrderRepository) FindAll() ([]order.Order, error) {
 	orders := new([]order.Order)
 
-	if err := repo.dB.Find(orders).Error; err != nil {
+	if exist := repo.dB.Migrator().HasTable(orders); !exist {
+		return nil, &customizedError.CustomizeError{ Message: "table not exist." }
+	} else if err := repo.dB.Find(orders).Error; err != nil {
 		return nil, err
 	}
 
