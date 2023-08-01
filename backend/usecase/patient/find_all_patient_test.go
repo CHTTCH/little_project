@@ -3,7 +3,7 @@ package patient
 import (
 	"testing"
 
-	mockPatientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
+	mockPatientRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/patient"
 	"github.com/stretchr/testify/assert"
 )
 

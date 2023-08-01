@@ -3,8 +3,8 @@ package order
 import (
 	"testing"
 
-	mockOrderRepo "github.com/CHTTCH/little_project/backend/adapter/order/mock_repository"
-	mockPatientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/mock_repository"
+	mockOrderRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/order"
+	mockPatientRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/patient"
 	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
 	"github.com/stretchr/testify/assert"
 )
