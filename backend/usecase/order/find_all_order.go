@@ -8,7 +8,7 @@ import (
 
 func FindAllOrders(repo repository.Repository[order.Order, int]) queryOutput.QueryOutput[order.Order] {
 	data, err := repo.FindAll()
-	
+
 	if err == nil {
 		return queryOutput.QueryOutput[order.Order]{Data: data, Result: true}
 	} else if err.Error() == "error: table not exist." {

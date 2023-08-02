@@ -83,7 +83,7 @@ func FindAllOrdersController(repo repository.Repository[entityOrder.Order, int])
 			c.JSON(http.StatusOK, output.GetData())
 		} else if output.Message == "table not exist" {
 			c.JSON(http.StatusOK, []any{})
-		}else {
+		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": errors.New("find all orders failed").Error()})
 		}
 	}

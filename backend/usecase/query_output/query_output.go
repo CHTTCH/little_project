@@ -1,8 +1,8 @@
 package query_output
 
 import (
-	"github.com/CHTTCH/little_project/backend/entity/patient"
 	"github.com/CHTTCH/little_project/backend/entity/order"
+	"github.com/CHTTCH/little_project/backend/entity/patient"
 )
 
 type QueryOutput[T patient.Patient | order.Order] struct {

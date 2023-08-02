@@ -4,32 +4,53 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/CHTTCH/little_project/backend/entity/patient"
 	mockOrderRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/order"
 	mockPatientRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/patient"
-	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateOrder(t *testing.T) {
+func TestCreateAnOrderThenSuccess(t *testing.T) {
+	assert := assert.New(t)
+
 	patientId := "1"
 	patientName := "小明"
 	patientRepo := mockPatientRepo.NewMockPatientRepository()
-	patientInput := usecasePatient.NewCreatePatientInput(patientId, patientName)
-	_ = usecasePatient.CreatePatient(patientRepo, patientInput)
+	patientRepo.Save(patient.NewPatient(patientId, patientName))
 
-	orderId := 1
 	message := "超過120請施打8u"
 	orderRepo := mockOrderRepo.NewMockOrderRepository()
 	orderInput := NewCreateOrderInput(patientId, message)
 
 	createOrderOutput := CreateOrder(patientRepo, orderRepo, orderInput)
 
-	patients, _ := patientRepo.FindAll()
-	orders, _ := orderRepo.FindAll()
+	expectedOrderId := 1
+	assert.Equal(true, createOrderOutput.GetResult())
+	assert.Equal(fmt.Sprintf("%d", expectedOrderId), createOrderOutput.GetId())
+	assert.Equal("", createOrderOutput.GetMessage())
 
-	assert.Equal(t, orderId, orders[0].GetId())
-	assert.Equal(t, message, orders[0].GetMessage())
-	assert.Equal(t, orderId, patients[0].GetOrderId())
-	assert.Equal(t, fmt.Sprintf("%d", orderId), createOrderOutput.GetId())
-	assert.Equal(t, true, createOrderOutput.GetResult())
+	order, _ := orderRepo.FindById(expectedOrderId)
+	assert.Equal(message, order.GetMessage())
+
+	patient, _ := patientRepo.FindById(patientId)
+	assert.Equal(expectedOrderId, patient.GetOrderId())
+}
+
+func TestCreateAnOrderWithNotExistPatientWillFailed(t *testing.T) {
+	assert := assert.New(t)
+
+	notExistPatientId := "1"
+	message := "超過120請施打8u"
+	patientRepo := mockPatientRepo.NewMockPatientRepository()
+	orderRepo := mockOrderRepo.NewMockOrderRepository()
+	orderInput := NewCreateOrderInput(notExistPatientId, message)
+
+	createOrderOutput := CreateOrder(patientRepo, orderRepo, orderInput)
+
+	assert.Equal(false, createOrderOutput.GetResult())
+	assert.Equal("patient not found", createOrderOutput.GetMessage())
+	assert.Equal("", createOrderOutput.GetId())
+
+	orders, _ := orderRepo.FindAll()
+	assert.Equal(0, len(orders))
 }

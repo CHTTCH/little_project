@@ -3,27 +3,35 @@ package order
 import (
 	"testing"
 
+	"github.com/CHTTCH/little_project/backend/entity/order"
 	mockOrderRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/order"
-	mockPatientRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/patient"
-	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFindAllOrder(t *testing.T) {
-	patientId := "1"
-	patientName := "小明"
-	patientRepo := mockPatientRepo.NewMockPatientRepository()
-	patientInput := usecasePatient.NewCreatePatientInput(patientId, patientName)
-	_ = usecasePatient.CreatePatient(patientRepo, patientInput)
+func TestFindAllOrdersThenSuccess(t *testing.T) {
+	assert := assert.New(t)
 
-	orderId := 1
-	message := "超過120請施打8u"
-	orderRepo := mockOrderRepo.NewMockOrderRepository()
-	orderInput := NewCreateOrderInput(patientId, message)
-	_ = CreateOrder(patientRepo, orderRepo, orderInput)
+	repo := mockOrderRepo.NewMockOrderRepository()
 
-	output := FindAllOrders(orderRepo)
+	o1 := order.NewOrder("超過120請施打8u")
+	repo.Save(o1)
 
-	assert.Equal(t, orderId, output.GetData()[0].GetId())
-	assert.Equal(t, message, output.GetData()[0].GetMessage())
+	output := FindAllOrders(repo)
+
+	assert.Equal(true, output.GetResult())
+	assert.Equal(1, len(output.GetData()))
+	assert.Equal(*o1, output.GetData()[0])
+	assert.Equal("", output.GetMessage())
+}
+
+func TestFindAllOrdersWhenNoOrderExistThenSuccess(t *testing.T) {
+	assert := assert.New(t)
+
+	repo := mockOrderRepo.NewMockOrderRepository()
+
+	output := FindAllOrders(repo)
+
+	assert.Equal(true, output.GetResult())
+	assert.Equal(0, len(output.GetData()))
+	assert.Equal("", output.GetMessage())
 }

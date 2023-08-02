@@ -1,14 +1,14 @@
 package scripts
 
 import (
+	customizeError "github.com/CHTTCH/little_project/backend/adapter/error"
 	entityPatient "github.com/CHTTCH/little_project/backend/entity/patient"
 	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
-	customizeError "github.com/CHTTCH/little_project/backend/adapter/error"
 	"github.com/CHTTCH/little_project/backend/usecase/repository"
 	"gorm.io/gorm"
 )
 
-var patients = []map[string]string {
+var patients = []map[string]string{
 	{"Id": "1", "Name": "小明"},
 	{"Id": "2", "Name": "小蔡"},
 	{"Id": "3", "Name": "小楊"},

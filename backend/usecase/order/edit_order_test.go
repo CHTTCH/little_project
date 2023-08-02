@@ -4,33 +4,44 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/CHTTCH/little_project/backend/entity/order"
 	mockOrderRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/order"
-	mockPatientRepo "github.com/CHTTCH/little_project/backend/test/mock_repository/patient"
-	usecasePatient "github.com/CHTTCH/little_project/backend/usecase/patient"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEditOrder(t *testing.T) {
-	patientId := "1"
-	patientName := "小明"
-	patientRepo := mockPatientRepo.NewMockPatientRepository()
-	createPatientInput := usecasePatient.NewCreatePatientInput(patientId, patientName)
-	_ = usecasePatient.CreatePatient(patientRepo, createPatientInput)
+func TestEditAnOrderThenSuccess(t *testing.T) {
+	assert := assert.New(t)
 
-	orderId := 1
 	message := "超過120請施打8u"
 	orderRepo := mockOrderRepo.NewMockOrderRepository()
-	createOrderInput := NewCreateOrderInput(patientId, message)
-	_ = CreateOrder(patientRepo, orderRepo, createOrderInput)
+	order := order.NewOrder(message)
+	orderRepo.Save(order)
 
-	modifiedMessage := "超過144請施打10u"
-	editOrderInput := NewEditOrderInput(orderId, modifiedMessage)
-	editOrderOutput := EditOrder(orderRepo, editOrderInput)
+	orderId := order.GetId()
+	newMessage := "超過150請施打8u"
+	input := NewEditOrderInput(orderId, newMessage)
 
-	order, err := orderRepo.FindById(orderId)
+	output := EditOrder(orderRepo, input)
 
-	assert.Equal(t, nil, err)
-	assert.Equal(t, modifiedMessage, order.GetMessage())
-	assert.Equal(t, fmt.Sprintf("%d", orderId), editOrderOutput.GetId())
-	assert.Equal(t, true, editOrderOutput.GetResult())
+	assert.Equal(true, output.GetResult())
+	assert.Equal(fmt.Sprintf("%d", orderId), output.GetId())
+	assert.Equal("", output.GetMessage())
+
+	editedOrder, _ := orderRepo.FindById(orderId)
+	assert.Equal(newMessage, editedOrder.GetMessage())
+}
+
+func TestOrderNotExistWillFailed(t *testing.T) {
+	assert := assert.New(t)
+
+	message := "超過120請施打8u"
+	notExistOrderId := 1
+	orderRepo := mockOrderRepo.NewMockOrderRepository()
+	input := NewEditOrderInput(notExistOrderId, message)
+
+	output := EditOrder(orderRepo, input)
+
+	assert.Equal(false, output.GetResult())
+	assert.Equal("order not found", output.GetMessage())
+	assert.Equal("", output.GetId())
 }

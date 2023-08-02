@@ -30,7 +30,7 @@ func (repo *OrderRepository) FindAll() ([]order.Order, error) {
 	orders := new([]order.Order)
 
 	if exist := repo.dB.Migrator().HasTable(orders); !exist {
-		return nil, &customizedError.CustomizeError{ Message: "table not exist." }
+		return nil, &customizedError.CustomizeError{Message: "table not exist."}
 	} else if err := repo.dB.Find(orders).Error; err != nil {
 		return nil, err
 	}

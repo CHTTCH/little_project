@@ -6,8 +6,8 @@ import (
 	patientController "github.com/CHTTCH/little_project/backend/adapter/patient/controller"
 	patientRepo "github.com/CHTTCH/little_project/backend/adapter/patient/repository"
 	"github.com/CHTTCH/little_project/backend/scripts"
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		panic("failed to connect database: " + err.Error())
 	}
-	
+
 	if err := scripts.CreateFivePatients(postgres, patientRepo); err != nil {
 		panic(err.Error())
 	}
